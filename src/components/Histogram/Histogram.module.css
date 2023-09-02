@@ -1,0 +1,98 @@
+.container {
+  --column-width: 16px;
+  --animation-duration: 200ms;
+  --animation-curve: ease-out;
+
+  width: 100%;
+  max-width: 996px;
+  margin: 30px;
+}
+
+.select_container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 28px;
+}
+
+.histogram_container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 10px 50px;
+
+  height: 400px;
+  padding: 40px;
+
+  background-color: #FF00F50D;
+  border-radius: 27px;
+}
+
+.y_axis_block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.y_axis_block > span {
+  font-size: 1.25rem;
+}
+
+.x_axis_block {
+  display: flex;
+  justify-content: space-between;
+}
+
+.x_axis_block > div {
+  display: flex;
+  justify-content: center;
+  width: var(--column-width);
+  font-size: 1.25rem;
+}
+
+.histogram {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.column {
+  position: relative;
+
+  width: var(--column-width);
+
+  background-color: var(--accent-color);
+  border-radius: 4px;
+
+  transition: box-shadow var(--animation-duration) var(--animation-curve);
+}
+
+.column:hover {
+  box-shadow: 0px 0px 8px 6px rgba(0, 10, 255, 0.15);
+}
+
+.column_tooltip {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: 1;
+  top: -4px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 45px;
+  height: 28px;
+
+  opacity: 0;
+  background-color: #65FF8E;
+  border-radius: 6px;
+
+  transition: opacity var(--animation-duration) var(--animation-curve);
+}
+
+.column:hover .column_tooltip {
+  opacity: 1;
+}

@@ -12,16 +12,17 @@ type Props = {
     key: string;
     value: string;
   }[];
+  defaultItem: Props['items'][0]['key'];
   onSelect: (value: Props['items'][0]['key']) => void;
 };
 
-function Select({ className = '', width, items, onSelect }: Props) {
+function Select({ className = '', width, items, defaultItem, onSelect }: Props) {
   const itemsMap: Record<string, string> = {};
   for (const item of items) {
     itemsMap[item.key] = item.value;
   }
 
-  const [selectedValue, setSelectedValue] = useState(items[0].key);
+  const [selectedValue, setSelectedValue] = useState(defaultItem);
 
   const onItemSelect = (key: string) => {
     setSelectedValue(key);
