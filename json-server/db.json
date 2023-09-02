@@ -1,15 +1,15 @@
 {
   "histogram": {
     "earnings": {
-      "year_sum": 53326,
-      "six_month_sum": 28905,
+      "year_sum": 48326,
+      "six_month_sum": 23905,
       "last_month_sum": 4561
     },
     "graph": {
       "year": {
-        "January": 7804,
+        "January": 5804,
         "February": 2150,
-        "March": 6123,
+        "March": 3123,
         "April": 3900,
         "May": 4367,
         "June": 4561,
@@ -21,9 +21,9 @@
         "December": 2512
       },
       "half_year": {
-        "January": 7804,
+        "January": 5804,
         "February": 2150,
-        "March": 6123,
+        "March": 3123,
         "April": 3900,
         "May": 4367,
         "June": 4561

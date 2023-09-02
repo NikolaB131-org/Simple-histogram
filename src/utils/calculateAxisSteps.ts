@@ -6,7 +6,7 @@
  * @param ticks количество необходимых шагов
  * @returns массив шагов
  */
-function calculateAxisSteps(minValue: number, maxValue: number, ticks: number): number[] {
+export const calculateAxisSteps = (minValue: number, maxValue: number, ticks: number): number[] => {
   let newMinValue = minValue;
   let newMaxValue = maxValue;
   if(minValue == maxValue) {
@@ -38,5 +38,3 @@ function calculateAxisSteps(minValue: number, maxValue: number, ticks: number): 
 
   return result;
 }
-
-export default calculateAxisSteps;
