@@ -6,6 +6,7 @@ import arrowSvg from '../../../public/arrow.svg';
 import styles from './Select.module.css';
 
 type Props = {
+  className?: string;
   width: number;
   items: {
     key: string;
@@ -14,7 +15,7 @@ type Props = {
   onSelect: (value: Props['items'][0]['key']) => void;
 };
 
-function Select({ width, items, onSelect }: Props) {
+function Select({ className = '', width, items, onSelect }: Props) {
   const itemsMap: Record<string, string> = {};
   for (const item of items) {
     itemsMap[item.key] = item.value;
@@ -28,14 +29,14 @@ function Select({ width, items, onSelect }: Props) {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${className}`}>
       <button className={styles.button} style={{ width: `${width}px` }}>
         <span className={styles.text}>{itemsMap[selectedValue]}</span>
         <Image className={styles.arrow} src={arrowSvg} alt='' />
       </button>
 
       <div className={styles.menu}>
-        {items.filter(item => item.key !== selectedValue).map((item, i) => (
+        {items.filter(item => item.key !== selectedValue).map((item, i) => ( // из списка убирается текущий выбранный элемент
           <div
             key={i}
             className={styles.menu_item}

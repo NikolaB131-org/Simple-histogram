@@ -3,8 +3,9 @@ import { Manrope } from 'next/font/google';
 import type { Metadata } from 'next';
 
 const manrope = Manrope({
-  variable: '--font-manrope',
   weight: ['400'],
+  fallback: ['sans-serif'],
+  variable: '--font-manrope',
   subsets: ['latin'],
   display: 'swap',
 });
@@ -21,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <body>
+      <body style={manrope.style}>
         <main>
           {children}
         </main>
