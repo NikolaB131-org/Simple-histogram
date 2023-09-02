@@ -1,4 +1,4 @@
-type HistogramResponse = {
+export type HistogramData = {
   earnings: {
     year_sum: number;
     six_month_sum: number;
