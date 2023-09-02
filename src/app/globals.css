@@ -1,5 +1,6 @@
 :root {
-
+  --accent-color: #000AFF;
+  --text-hover-color: #0E14A3;
 }
 
 * {
