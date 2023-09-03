@@ -24,7 +24,7 @@ enum Filter {
   LastMonth = 'last_month',
 }
 
-type Props = {
+export type Props = {
   data: HistogramData['graph'];
 };
 

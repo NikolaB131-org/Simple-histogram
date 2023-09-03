@@ -5,7 +5,7 @@ import Image from 'next/image';
 import arrowSvg from '../../../public/arrow.svg';
 import styles from './Select.module.css';
 
-type Props = {
+export type Props = {
   className?: string;
   width: number;
   items: {
