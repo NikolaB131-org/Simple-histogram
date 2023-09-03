@@ -55,6 +55,11 @@
   justify-content: space-between;
 }
 
+.column_container {
+  display: flex;
+  align-items: flex-end;
+}
+
 .column {
   position: relative;
 
@@ -64,6 +69,16 @@
   border-radius: 4px;
 
   transition: box-shadow var(--animation-duration) var(--animation-curve);
+  animation: column_fill 600ms ease-in-out forwards;
+}
+
+@keyframes column_fill {
+  from {
+    height: 1px;
+  }
+  to {
+    height: 100%;
+  }
 }
 
 .column:hover {

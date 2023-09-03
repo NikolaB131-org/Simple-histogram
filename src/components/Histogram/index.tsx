@@ -7,13 +7,15 @@ import { calculateAxisSteps } from '@/utils/calculateAxisSteps';
 import Select from '../Select';
 import styles from './Histogram.module.css';
 
-const getDay = (day: string, i: number, daysLength: number) => {
-  // Если (день кратен 5 и при этом не предпоследний) или если день первый или последний
-  if ((+day % 5 === 0 && i !== daysLength - 2) || i === 0 || i === daysLength - 1) {
-    return day.length === 1 ? `0${day}` : day; // если нужно, добавляем 0 спереди дня
-  } else {
-    return '';
-  }
+const getDays = (days: string[]) => {
+  return days.map((day, i) => {
+    // Если (день кратен 5 и при этом не предпоследний) или если день первый или последний
+    if ((+day % 5 === 0 && i !== days.length - 2) || i === 0 || i === days.length - 1) {
+      return day.length === 1 ? `0${day}` : day; // если нужно, добавляем 0 спереди дня
+    } else {
+      return '';
+    }
+  });
 };
 
 enum Filter {
@@ -30,42 +32,67 @@ function Histogram({ data }: Props) {
   const [selectedFilter, setSelectedFilter] = useState<string>(Filter.LastYear);
   const [xAxisLabels, setXAxisLabels] = useState<string[]>();
   const [yAxisLabels, setYAxisLabels] = useState<number[]>();
-  const [columns, setColumns] = useState<number[]>();
+  const [columnNumbers, setColumnNumbers] = useState<number[]>();
 
   useEffect(() => {
     let xAxisLabels: string[] = [];
     let yAxisLabels: number[] = [];
-    let columns: number[] = [];
+    let columnNumbers: number[] = [];
 
     switch (selectedFilter) {
       case Filter.LastYear: {
         const numbers = Array.from(Object.values(data.year));
         xAxisLabels = Object.keys(data.year).map(name => convertMonthName(name));
         yAxisLabels = numbers;
-        columns = numbers;
+        columnNumbers = numbers;
         break;
       }
       case Filter.Last6Months: {
         const numbers = Array.from(Object.values(data.half_year));
         xAxisLabels = Object.keys(data.half_year).map(name => convertMonthName(name));
         yAxisLabels = numbers;
-        columns = numbers;
+        columnNumbers = numbers;
         break;
       }
       case Filter.LastMonth: {
         const numbers = Array.from(Object.values(data.month));
-        const days = Object.keys(data.month);
-        xAxisLabels = days.map((day, i) => getDay(day, i, days.length));
+        xAxisLabels = getDays(Object.keys(data.month))
         yAxisLabels = numbers;
-        columns = numbers;
+        columnNumbers = numbers;
         break;
       }
     }
 
     setXAxisLabels(xAxisLabels)
     setYAxisLabels(calculateAxisSteps(Math.min(...yAxisLabels), Math.max(...yAxisLabels), 6));
-    setColumns(columns);
+    setColumnNumbers(columnNumbers);
+
+    // Сброс анимации на всех колонках
+    const columnsElements = document.getElementsByClassName(styles.column) as HTMLCollectionOf<HTMLDivElement>;
+    for (let i = 0; i < columnsElements.length; i++) {
+      columnsElements[i].style.animation = 'none';
+      columnsElements[i].offsetHeight; /* trigger reflow */
+      columnsElements[i].style.animation = '';
+    }
   }, [selectedFilter, data])
+
+  const getColumns = () => {
+    if (yAxisLabels && columnNumbers) {
+      return columnNumbers.map((columnNumber, i) => {
+        const maxLabelNumber = yAxisLabels[yAxisLabels.length - 1];
+        const minLabelNumber = yAxisLabels[0];
+        const range = maxLabelNumber - minLabelNumber;
+        const height = `${(columnNumber - minLabelNumber) / range * 100}%`;
+        return (
+          <div key={i} className={styles.column_container} style={{ height }}>
+            <div className={styles.column}>
+              <div className={styles.column_tooltip}>{columnNumber}</div>
+            </div>
+          </div>
+        );
+      });
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -82,24 +109,14 @@ function Histogram({ data }: Props) {
       </div>
 
       <div className={styles.histogram_container}>
-        {xAxisLabels && yAxisLabels && columns &&
+        {xAxisLabels && yAxisLabels &&
           <>
             <div className={styles.y_axis_block}>
               {[...yAxisLabels].reverse().map((label, i) => <span key={i}>{label}</span>)}
             </div>
 
             <div className={styles.histogram}>
-              {columns.map((column, i) => {
-                const maxLabelNumber = yAxisLabels[yAxisLabels.length - 1];
-                const minLabelNumber = yAxisLabels[0];
-                const range = maxLabelNumber - minLabelNumber;
-                const height = `${(column - minLabelNumber) / range * 100}%`;
-                return (
-                  <div key={i} className={styles.column} style={{ height }}>
-                    <div className={styles.column_tooltip}>{column}</div>
-                  </div>
-                );
-              })}
+              {getColumns()}
             </div>
 
             <div></div> {/* Пустой блок для правильных пропорций */}
