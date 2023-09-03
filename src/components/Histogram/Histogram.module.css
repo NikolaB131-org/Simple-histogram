@@ -64,18 +64,16 @@
   position: relative;
 
   width: var(--column-width);
+  height: 1px;
 
   background-color: var(--accent-color);
   border-radius: 4px;
 
   transition: box-shadow var(--animation-duration) var(--animation-curve);
-  animation: column_fill 600ms ease-in-out forwards;
+  animation: column_fill 600ms ease-in-out 150ms forwards;
 }
 
 @keyframes column_fill {
-  from {
-    height: 1px;
-  }
   to {
     height: 100%;
   }
