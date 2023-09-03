@@ -1,34 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">Простая гистограмма</h1>
 
-## Getting Started
+## Сделано с помощью
 
-First, run the development server:
+- Next.js
+- Typescript
+- CSS Modules
+- Jest
+- React Testing Library
+- ESLint
+- Stylelint
 
+## Установка и запуск
+
+1. Установите зависимости
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+npm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Запустите мок сервер
+```bash
+npm run server
+```
+> Запустится на порту 3001
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Запустите проект в режиме разработки
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Сборка проекта
 
-## Learn More
+1. Убедитесь что у вас создан файл .env.production в котором есть ключ ```API_URL``` с ссылкой к API (без ```/``` в конце)
 
-To learn more about Next.js, take a look at the following resources:
+2. Соберите проект
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Запустите проект
+```bash
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Остальные команды
 
-## Deploy on Vercel
+Запуск тестов
+```bash
+npm test
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Запуск линтеров
+```bash
+npm run lint
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Запуск stylelint (с флагом --fix)
+```bash
+npm run lint:styles
+```
