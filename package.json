@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "next lint && npm run lint:styles",
     "lint:styles": "stylelint \"**/*.css\" --fix",
-    "server": "json-server -w json-server/db.json -p 3001"
+    "server": "json-server -w json-server/db.json --routes json-server/routes.json -p 3001"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^6.1.2",

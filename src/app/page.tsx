@@ -3,7 +3,7 @@ import Histogram from '@/components/Histogram';
 import styles from './page.module.css';
 
 async function Home() {
-  const response = await fetch(`${process.env.API_URL}/histogram`);
+  const response = await fetch(`${process.env.API_URL}/api/histogram`);
   const histogramData: HistogramData = await response.json();
 
   return (
