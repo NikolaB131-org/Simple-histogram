@@ -29,7 +29,9 @@ jobs:
       - name: Clean previous files
         run: rm -rf ${{env.path}}
       - name: Copy backend
-        run: cp -r json-server ${{env.path}}/json-server
+        run: |
+          mkdir -p ${{env.path}}/json-server
+          cp -r json-server ${{env.path}}/json-server
       - name: Deploy backend
         run: pm2 -s restart /var/configs/pm2_ecosystem.config.js --env production --only "Simple-histogram backend"
       - name: Build frontend
