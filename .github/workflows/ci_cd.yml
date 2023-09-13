@@ -27,9 +27,9 @@ jobs:
       - name: Tests
         run: npm test
       - name: Copy backend
-        run: cp -r json-server ${{env.path}}
+        run: cp -r json-server ${{env.path}}/json-server
       - name: Deploy backend
-        run: pm2 restart /var/configs/pm2_ecosystem.config.js --env production --only "Simple-histogram backend"
+        run: pm2 -s restart /var/configs/pm2_ecosystem.config.js --env production --only "Simple-histogram backend"
       - name: Build frontend
         run: |
           cp -r /var/environments/histogram.nikolab131.xyz/. .
@@ -62,6 +62,6 @@ jobs:
           cd ${{env.path}}
           npm ci
       - name: Restart pm2
-        run: pm2 restart /var/configs/pm2_ecosystem.config.js --env production
+        run: pm2 -s restart /var/configs/pm2_ecosystem.config.js --env production
       - name: Save pm2
-        run: pm2 save
+        run: pm2 -s save
