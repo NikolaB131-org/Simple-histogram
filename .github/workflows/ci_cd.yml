@@ -30,6 +30,8 @@ jobs:
         run: rm -rf ${{env.path}}
       - name: Copy backend
         run: |
+          mkdir -p ${{env.path}}/node_modules/json-server
+          cp -r node_modules/json-server/. ${{env.path}}/node_modules/json-server
           mkdir -p ${{env.path}}/json-server
           cp -r json-server/. ${{env.path}}/json-server
       - name: Deploy backend
