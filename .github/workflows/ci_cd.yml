@@ -10,8 +10,8 @@ env:
   tempPath: /var/tmp/histogram.nikolab131.xyz
 
 jobs:
-  build:
-    name: 'Build frontend and deploy backend'
+  build_backend:
+    name: 'Build backend'
     runs-on: self-hosted
 
     steps:
@@ -28,9 +28,8 @@ jobs:
         run: npm test
       - name: Clean previous files
         run: rm -rf ${{env.path}}
-      - name: Copy backend
+      - name: Copy
         run: |
-          mkdir -p ${{env.path}}
           mkdir -p ${{env.path}}/json-server
           cp -r json-server/. ${{env.path}}/json-server
           cp package.json ${{env.path}}
@@ -39,23 +38,48 @@ jobs:
         run: |
           cd ${{env.path}}
           npm ci
-      - name: Deploy backend
+
+
+  deploy_backend:
+    needs: build_backend
+    name: 'Deploy backend'
+    runs-on: self-hosted
+
+    steps:
+      - name: Restart pm2
         run: pm2 -s restart /var/configs/pm2_ecosystem.config.js --env production --only "Simple-histogram_backend"
-      - name: Build frontend
+
+
+  build_frontend:
+    needs: deploy_backend
+    name: 'Build frontend'
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
         run: |
           cp -r /var/environments/histogram.nikolab131.xyz/. .
           npm run build
       - name: Clean previous files
         run : rm -rf ${{env.tempPath}}
-      - name: Copy frontend
+      - name: Copy
         run: |
-          mkdir -p ${{env.tempPath}}
           mkdir -p ${{env.tempPath}}/.next
           cp -r .next/* ${{env.tempPath}}/.next
           cp -r /var/environments/histogram.nikolab131.xyz/. ${{env.tempPath}}
 
-  deploy:
-    needs: build
+
+  deploy_frontend:
+    needs: build_frontend
     name: 'Deploy frontend'
     runs-on: self-hosted
 
