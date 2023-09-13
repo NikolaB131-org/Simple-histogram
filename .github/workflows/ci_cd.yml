@@ -11,7 +11,7 @@ env:
 
 jobs:
   build:
-    name: 'Build'
+    name: 'Build frontend and deploy backend'
     runs-on: self-hosted
 
     steps:
@@ -26,13 +26,17 @@ jobs:
         run: npm ci
       - name: Tests
         run: npm test
-      - name: Build
+      - name: Copy backend
+        run: cp -r json-server ${{env.path}}
+      - name: Deploy backend
+        run: pm2 restart /var/configs/pm2_ecosystem.config.js --env production --only "Simple-histogram backend"
+      - name: Build frontend
         run: |
           cp -r /var/environments/histogram.nikolab131.xyz/. .
           npm run build
       - name: Clean previous files
         run : rm -rf ${{env.tempPath}}
-      - name: Copy
+      - name: Copy frontend
         run: |
           mkdir -p ${{env.tempPath}}
           mkdir -p ${{env.tempPath}}/.next
@@ -43,7 +47,7 @@ jobs:
 
   deploy:
     needs: build
-    name: 'Deploy'
+    name: 'Deploy frontend'
     runs-on: self-hosted
 
     steps:
